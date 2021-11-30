@@ -29,8 +29,8 @@ public class ChessBoard {
 			StdDraw.line(140 + ((720 / (size + 1)) * (i + 1)), 150, 140 + ((720 / (size + 1)) * (i + 1)), 870);// 依次绘制竖线
 			StdDraw.line(140, 150 + ((720 / (size + 1)) * (i + 1)), 860, 150 + ((720 / (size + 1)) * (i + 1)));// 依次绘制横线
 			for (int j = 0; j < size; j++) {
-				chesslocal[j][i][0] = 140 + ((720 / (size + 1)) * (i + 1));// 获取每个交点的x坐标
-				chesslocal[i][j][1] = 150 + ((720 / (size + 1)) * (i + 1));// 获取每个交点的y坐标
+				chesslocal[i][j][0] = 140 + ((720 / (size + 1)) * (i + 1));// 获取每个交点的x坐标
+				chesslocal[j][i][1] = 150 + ((720 / (size + 1)) * (i + 1));// 获取每个交点的y坐标
 			}
 
 		} // 绘制中心点
@@ -43,13 +43,15 @@ public class ChessBoard {
 		while (true) {
 			StdDraw.setPenColor(color ? StdDraw.BLACK : StdDraw.RED);
 			if (StdDraw.isMousePressed()) {
-				int x = (int) (Math.round((StdDraw.mouseX() - 140) / 45));
-				int y = (int) (Math.round((StdDraw.mouseY() - 150) / 45));
-				StdDraw.filledCircle(chesslocal[y][x][0], chesslocal[y][x][1], 20);
-				System.out.println(x + " " + y);
-				System.out.println(StdDraw.mouseX() + " " + StdDraw.mouseY());
+				int x = (int) Math.min(Math.max((Math.round((StdDraw.mouseX() - 140) / 45) - 1), 0),
+						Math.min((Math.round((StdDraw.mouseX() - 140) / 45) - 1), 14));// 计算出距离鼠标最近的交点的序号，用最大最小的方法保障不会越界
+				int y = (int) Math.min(Math.max((Math.round((StdDraw.mouseY() - 150) / 45) - 1), 0),
+						Math.min((Math.round((StdDraw.mouseY() - 150) / 45) - 1), 14));
+				x = Math.max(x, 0);
+				y = Math.max(y, 0);// 这里单独写是因为前面太长了，这部分应该可以单独写一个方法
+				StdDraw.filledCircle(chesslocal[x][y][0], chesslocal[x][y][1], 20);
 				StdDraw.show();
-				StdDraw.pause(150);
+				StdDraw.pause(300);
 				color = !color;
 			}
 
