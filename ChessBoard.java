@@ -1,58 +1,71 @@
+/*
+ * å·²å®ç°åŠŸèƒ½ï¼š
+ * ç»˜åˆ¶æ£‹ç›˜ï¼ˆå¯å˜å¤§å°ï¼‰ï¼Œè½å­ï¼ˆåŒ…æ‹¬æ˜¯å¦èƒ½è½å­ï¼‰ï¼Œæ£‹ç›˜çŠ¶æ€å‚¨å­˜ï¼ˆ1æ¬¡ï¼‰
+ * 
+ * å¾…å®ç°åŠŸèƒ½ï¼š
+ * é¼ æ ‡ç›‘å¬ä»£ç æ–¹æ³•åŒ–å°è£…ï¼Œå¤šæ¬¡çŠ¶æ€å‚¨å­˜ï¼ˆå‰ä¸‰æ¬¡ï¼‰ï¼Œæ’å…¥èƒŒæ™¯ï¼Œè®¾è®¡æŒ‰é’®
+ *	2021ã€12ã€1
+ */
 import edu.princeton.cs.algs4.StdDraw;
 
 public class ChessBoard {
 	/*
-	 * Õâ¸öÆåÅÌ´óĞ¡¹Ì¶¨£¬x·¶Î§£¨140£¬860£©£¬y·¶Î§£¨150£¬870£©
+	 * è¿™ä¸ªæ£‹ç›˜å¤§å°å›ºå®šï¼ŒxèŒƒå›´ï¼ˆ140ï¼Œ860ï¼‰ï¼ŒyèŒƒå›´ï¼ˆ150ï¼Œ870ï¼‰
 	 * 
 	 */
 	public static void main(String[] args) {
 		StdDraw.setCanvasSize(800, 800);
 		StdDraw.setXscale(0, 1000);
 		StdDraw.setYscale(0, 1000);
-		// StdDraw.enableDoubleBuffering();
+		StdDraw.enableDoubleBuffering();
 
-		// »æÖÆÍâ±ß¿ò
-		StdDraw.line(135, 145, 865, 145);// ºáÏß
+		// ç»˜åˆ¶å¤–è¾¹æ¡†
+		StdDraw.line(135, 145, 865, 145);// æ¨ªçº¿
 		StdDraw.line(135, 875, 865, 875);
-		StdDraw.line(135, 145, 135, 875);// ÊúÏß
+		StdDraw.line(135, 145, 135, 875);// ç«–çº¿
 		StdDraw.line(865, 145, 865, 875);
-		// »æÖÆÄÚ±ß¿ò
-		StdDraw.line(140, 150, 860, 150);// ºáÏß
+		// ç»˜åˆ¶å†…è¾¹æ¡†
+		StdDraw.line(140, 150, 860, 150);// æ¨ªçº¿
 		StdDraw.line(140, 870, 860, 870);
-		StdDraw.line(140, 150, 140, 870);// ÊúÏß
+		StdDraw.line(140, 150, 140, 870);// ç«–çº¿
 		StdDraw.line(860, 150, 860, 870);
 
-		// »æÖÆÏß¸ñ
-		int size = 15;// ¿É±äÁ¿
+		// ç»˜åˆ¶çº¿æ ¼
+		int size = 15;// å¯å˜é‡
 		double[][][] chesslocal = new double[size][size][2];
 		for (int i = 0; i < size; i++) {
-			StdDraw.line(140 + ((720 / (size + 1)) * (i + 1)), 150, 140 + ((720 / (size + 1)) * (i + 1)), 870);// ÒÀ´Î»æÖÆÊúÏß
-			StdDraw.line(140, 150 + ((720 / (size + 1)) * (i + 1)), 860, 150 + ((720 / (size + 1)) * (i + 1)));// ÒÀ´Î»æÖÆºáÏß
+			StdDraw.line(140 + ((720 / (size + 1)) * (i + 1)), 150, 140 + ((720 / (size + 1)) * (i + 1)), 870);// ä¾æ¬¡ç»˜åˆ¶ç«–çº¿
+			StdDraw.line(140, 150 + ((720 / (size + 1)) * (i + 1)), 860, 150 + ((720 / (size + 1)) * (i + 1)));// ä¾æ¬¡ç»˜åˆ¶æ¨ªçº¿
 			for (int j = 0; j < size; j++) {
-				chesslocal[i][j][0] = 140 + ((720 / (size + 1)) * (i + 1));// »ñÈ¡Ã¿¸ö½»µãµÄx×ø±ê
-				chesslocal[j][i][1] = 150 + ((720 / (size + 1)) * (i + 1));// »ñÈ¡Ã¿¸ö½»µãµÄy×ø±ê
+				chesslocal[i][j][0] = 140 + ((720 / (size + 1)) * (i + 1));// è·å–æ¯ä¸ªäº¤ç‚¹çš„xåæ ‡
+				chesslocal[j][i][1] = 150 + ((720 / (size + 1)) * (i + 1));// è·å–æ¯ä¸ªäº¤ç‚¹çš„yåæ ‡
 			}
 
-		} // »æÖÆÖĞĞÄµã
+		} // ç»˜åˆ¶ä¸­å¿ƒç‚¹
 		StdDraw.filledCircle(140 + ((720 / (size + 1)) * 8), 150 + ((720 / (size + 1)) * 8), 5);
 		StdDraw.show();
-		// StdDraw.clear();
-		// StdDraw.show();
-		// StdDraw.disableDoubleBuffering();
-		boolean color = true;
+		StdDraw.disableDoubleBuffering();
+
+//-----------------------------------------------------------------------------------------------//è½å­ä»£ç 
+		int[][][] haschess = new int[size][size][1];// 1ä»£è¡¨é»‘å­ï¼Œ2ä»£è¡¨ç™½å­
+		boolean color = true;// trueä»£è¡¨é»‘å­
 		while (true) {
 			StdDraw.setPenColor(color ? StdDraw.BLACK : StdDraw.RED);
 			if (StdDraw.isMousePressed()) {
+				// é¼ æ ‡ç›‘å¬
 				int x = (int) Math.min(Math.max((Math.round((StdDraw.mouseX() - 140) / 45) - 1), 0),
-						Math.min((Math.round((StdDraw.mouseX() - 140) / 45) - 1), 14));// ¼ÆËã³ö¾àÀëÊó±ê×î½üµÄ½»µãµÄĞòºÅ£¬ÓÃ×î´ó×îĞ¡µÄ·½·¨±£ÕÏ²»»áÔ½½ç
+						Math.min((Math.round((StdDraw.mouseX() - 140) / 45) - 1), 14));// è®¡ç®—å‡ºè·ç¦»é¼ æ ‡æœ€è¿‘çš„äº¤ç‚¹çš„åºå·ï¼Œç”¨æœ€å¤§æœ€å°çš„æ–¹æ³•ä¿éšœä¸ä¼šè¶Šç•Œ
 				int y = (int) Math.min(Math.max((Math.round((StdDraw.mouseY() - 150) / 45) - 1), 0),
 						Math.min((Math.round((StdDraw.mouseY() - 150) / 45) - 1), 14));
 				x = Math.max(x, 0);
-				y = Math.max(y, 0);// ÕâÀïµ¥¶ÀĞ´ÊÇÒòÎªÇ°ÃæÌ«³¤ÁË£¬Õâ²¿·ÖÓ¦¸Ã¿ÉÒÔµ¥¶ÀĞ´Ò»¸ö·½·¨
-				StdDraw.filledCircle(chesslocal[x][y][0], chesslocal[x][y][1], 20);
+				y = Math.max(y, 0);// è¿™é‡Œå•ç‹¬å†™æ˜¯å› ä¸ºå‰é¢å¤ªé•¿äº†ï¼Œè¿™éƒ¨åˆ†åº”è¯¥å¯ä»¥å•ç‹¬å†™ä¸€ä¸ªæ–¹æ³•
+				if (haschess[x][y][0] == 0) {
+					StdDraw.filledCircle(chesslocal[x][y][0], chesslocal[x][y][1], 20);
+					haschess[x][y][0] = color ? 1 : 2;
+					color = !color;
+				}
 				StdDraw.show();
 				StdDraw.pause(300);
-				color = !color;
 			}
 
 		}
