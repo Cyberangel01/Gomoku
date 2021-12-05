@@ -1,4 +1,4 @@
-package com.gomoku.model;
+package com.company.gomoku.model;
 
 /**
  * 玩家类

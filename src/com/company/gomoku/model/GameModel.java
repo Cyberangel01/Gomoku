@@ -1,6 +1,6 @@
-package com.gomoku.model;
+package com.company.gomoku.model;
 
-import com.gomoku.util.CException;
+import com.company.gomoku.util.CException;
 
 import java.util.ArrayList;
 import java.util.List;

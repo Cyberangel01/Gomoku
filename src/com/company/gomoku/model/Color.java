@@ -1,4 +1,4 @@
-package com.gomoku.model;
+package com.company.gomoku.model;
 
 public enum Color {
     BLACK(1),

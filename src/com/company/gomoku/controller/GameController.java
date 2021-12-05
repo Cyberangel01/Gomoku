@@ -1,7 +1,7 @@
-package com.gomoku.controller;
+package com.company.gomoku.controller;
 
-import com.gomoku.model.GameModel;
-import com.gomoku.util.CException;
+import com.company.gomoku.model.GameModel;
+import com.company.gomoku.util.CException;
 
 public class GameController {
 

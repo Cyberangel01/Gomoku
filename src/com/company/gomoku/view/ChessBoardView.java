@@ -1,4 +1,4 @@
-package com.gomoku.view;
+package com.company.gomoku.view;
 /*
  * 已实现功能：
  * 绘制棋盘（可变大小），落子（包括是否能落子），棋盘状态储存（1次）

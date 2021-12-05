@@ -1,4 +1,4 @@
-package com.gomoku.util;
+package com.company.gomoku.util;
 
 public class Logger {
 
