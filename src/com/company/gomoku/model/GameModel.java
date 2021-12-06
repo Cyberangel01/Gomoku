@@ -8,14 +8,14 @@ import java.util.Random;
 
 public class GameModel {
 
-    private ChessBoard chessBoard;
+    private ChessBoardModel chessBoardModel;
 
     private List<Player> players;
 
     private Integer nowTurnIndex;
 
     public GameModel(int size, String nameA, String nameB) {
-        chessBoard = new ChessBoard(size);
+        chessBoardModel = new ChessBoardModel(size);
         players = new ArrayList<>();
         Player playerA = new Player(nameA);
         Player playerB = new Player(nameB);
@@ -34,8 +34,8 @@ public class GameModel {
         players.add(playerB);
     }
 
-    public ChessBoard getChessBoard() {
-        return chessBoard;
+    public ChessBoardModel getChessBoardModel() {
+        return chessBoardModel;
     }
 
     public List<Player> getPlayers() {
@@ -58,7 +58,7 @@ public class GameModel {
      */
     public void playChess(int row, int col) throws CException {
         Player player = getNowTurnPlayer();
-        chessBoard.playChess(row, col, player.getColor());
+        chessBoardModel.playChess(row, col, player.getColor());
         nextTurn();
     }
 

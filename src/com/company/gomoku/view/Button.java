@@ -15,55 +15,54 @@ package com.company.gomoku.view;
 import com.sustc.stdlib.StdDraw;
 
 public class Button {
-	static double ScaleX;
-	static double ScaleY;
-	static double centerX;
-	static double centerY;
-	static String text;
+	private double scaleX;
+	private double scaleY;
+	private double centerX;
+	private double centerY;
+	private String text;
+	private OnClickListener onClickListener;
 
-	public Button(double centerX, double centerY, String te) {
-		ScaleX = 120;
-		ScaleY = 240;
-		text = te;
-		Button.DrawButton();
+	public Button(double centerX, double centerY, String text) {
+		scaleX = 120;
+		scaleY = 240;
+		this.text = text;
+		drawButton();
 	}
 
-	public Button(double ScaleX, double ScaleY, double centerX, double centerY, String te) {
-		Button.ScaleX = ScaleX;
-		Button.ScaleY = ScaleY;
-		Button.centerX = centerX;
-		Button.centerY = centerY;
-		text = te;
-		Button.DrawButton();
+	public Button(double ScaleX, double ScaleY, double centerX, double centerY, String text) {
+		this.scaleX = ScaleX;
+		this.scaleY = ScaleY;
+		this.centerX = centerX;
+		this.centerY = centerY;
+		this.text = text;
+		drawButton();
 	}
 
-	public static void DrawButton() {
-		StdDraw.picture(centerX, centerY, "Button.jpg", ScaleX, ScaleY);// Button.jpg只是测试品，具体使用待定
+	public void setOnClickListener(OnClickListener onClickListener) {
+		this.onClickListener = onClickListener;
+	}
+
+	public void drawButton() {
+		StdDraw.picture(centerX, centerY, "Button.jpg", scaleX, scaleY);// Button.jpg只是测试品，具体使用待定
 		StdDraw.text(centerX, centerY, text);
 	}
 
-	public static void isPressed() {// 判断是否被点击
-		double[] localX = { centerX - ScaleX / 2, centerX + ScaleX / 2 };
-		double[] localY = { centerY - ScaleY / 2, centerY + ScaleY / 2 };
-		while (true) {
-			if (StdDraw.isMousePressed()) {
-				double[] mouse = { StdDraw.mouseX(), StdDraw.mouseY() };
-				if (include(mouse, localX, localY)) {
-					function();
-				}
-			}
+	// 判断是否被点击
+	public void checkPressed(double mouseX, double mouseY) {
+		double[] localX = { centerX - scaleX / 2, centerX + scaleX / 2 };
+		double[] localY = { centerY - scaleY / 2, centerY + scaleY / 2 };
+		double[] mouse = { mouseX, mouseY };
+		if (include(mouse, localX, localY) && onClickListener != null) {
+			onClickListener.onClick(this);
 		}
 	}
 
-	private static void function() {
-		// test
-		Interface.PlayInterface();
-		// test
-		// 这个方法让子类自己重写
-	}
-
-//辅助函数，判断是否包含在Button中
+    //辅助函数，判断是否包含在Button中
 	private static boolean include(double[] x, double[] localX, double[] localY) {
 		return x[0] >= localX[0] && x[0] <= localX[1] && x[1] >= localY[0] && x[1] <= localY[1];
+	}
+
+	interface OnClickListener {
+		void onClick(Button view);
 	}
 }

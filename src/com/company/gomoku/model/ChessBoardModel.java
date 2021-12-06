@@ -5,13 +5,13 @@ import com.company.gomoku.util.CException;
 /**
  * 棋盘
  */
-public class ChessBoard {
+public class ChessBoardModel {
 
     private int size;
 
     private int[][] board;
 
-    public ChessBoard(int size) {
+    public ChessBoardModel(int size) {
         this.size = size;
         this.board = new int[size + 1][size + 1];
     }

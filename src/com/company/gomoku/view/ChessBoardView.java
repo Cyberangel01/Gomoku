@@ -1,13 +1,20 @@
 package com.company.gomoku.view;
 /*
  * 已实现功能：
- * 绘制棋盘（可变大小），落子（包括是否能落子），棋盘状态储存（1次）
+ * 	绘制棋盘（可变大小）
+ * 	落子（包括是否能落子）
+ * 	棋盘状态储存（1次）
+ * 	鼠标监听代码方法化封装
+ * 	插入背景
  * 
  * 待实现功能：
- * 鼠标监听代码方法化封装，多次状态储存（前三次），插入背景，设计按钮
- *	2021、12、1
+ * 	多次状态储存（前三次）
+ * 
+ * 
+ *	2021.12.6
  */
 
+import com.company.gomoku.controller.IGameController;
 import com.sustc.stdlib.StdDraw;
 
 public class ChessBoardView {
@@ -15,11 +22,31 @@ public class ChessBoardView {
 	 * 这个棋盘大小固定，x范围（140，860），y范围（150，870）
 	 * 
 	 */
-	public static void main(String[] args) {
-		StdDraw.setCanvasSize(800, 800);
-		StdDraw.setXscale(0, 1000);
-		StdDraw.setYscale(0, 1000);
+	private int size;
+
+	private double[][][] chesslocal;
+
+	private int grid;
+
+	private IGameController gameController;
+
+	public ChessBoardView(int size) {
+		this.size = size;
+		chesslocal = new double[size][size][2];
+		grid = (720 / (size + 1));
+		// 构造这个棋盘的时候就画出来了
+		this.DrawChessBoard();
+	}
+
+	private void DrawChessBoard() {
+		StdDraw.clear();
 		StdDraw.enableDoubleBuffering();
+
+		int centerX = 140 + (grid * (size + 1) / 2);
+		int centerY = 150 + (grid * (size + 1) / 2);
+
+		StdDraw.picture(centerX, centerY, "test.jpg", 730, 730);// 插入棋盘背景
+		StdDraw.filledCircle(centerX, centerY, 5);// 绘制中心点
 
 		// 绘制外边框
 		StdDraw.line(135, 145, 865, 145);// 横线
@@ -33,36 +60,39 @@ public class ChessBoardView {
 		StdDraw.line(860, 150, 860, 870);
 
 		// 绘制线格
-		int size = 15;// 可变量
-		double[][][] chesslocal = new double[size][size][2];
 		for (int i = 0; i < size; i++) {
-			StdDraw.line(140 + ((720 / (size + 1)) * (i + 1)), 150, 140 + ((720 / (size + 1)) * (i + 1)), 870);// 依次绘制竖线
-			StdDraw.line(140, 150 + ((720 / (size + 1)) * (i + 1)), 860, 150 + ((720 / (size + 1)) * (i + 1)));// 依次绘制横线
+			StdDraw.line(140 + (grid * (i + 1)), 150, 140 + grid * (i + 1), 870);// 依次绘制竖线
+			StdDraw.line(140, 150 + (grid * (i + 1)), 860, 150 + grid * (i + 1));// 依次绘制横线
 			for (int j = 0; j < size; j++) {
 				chesslocal[i][j][0] = 140 + ((720 / (size + 1)) * (i + 1));// 获取每个交点的x坐标
 				chesslocal[j][i][1] = 150 + ((720 / (size + 1)) * (i + 1));// 获取每个交点的y坐标
 			}
 
-		} // 绘制中心点
-		StdDraw.filledCircle(140 + ((720 / (size + 1)) * 8), 150 + ((720 / (size + 1)) * 8), 5);
+		}
 		StdDraw.show();
 		StdDraw.disableDoubleBuffering();
+	}
 
-//-----------------------------------------------------------------------------------------------//落子代码
+	public void setGameController(IGameController gameController) {
+		this.gameController = gameController;
+	}
+
+	/**
+	 * 落子代码
+	 */
+	public void play() {
+		StdDraw.pause(300);
 		int[][][] haschess = new int[size][size][1];// 1代表黑子，2代表白子
 		boolean color = true;// true代表黑子
 		while (true) {
-			StdDraw.setPenColor(color ? StdDraw.BLACK : StdDraw.RED);
+			StdDraw.setPenColor(color ? StdDraw.BLACK : StdDraw.WHITE);
 			if (StdDraw.isMousePressed()) {
 				// 鼠标监听
-				int x = (int) Math.min(Math.max((Math.round((StdDraw.mouseX() - 140) / 45) - 1), 0),
-						Math.min((Math.round((StdDraw.mouseX() - 140) / 45) - 1), 14));// 计算出距离鼠标最近的交点的序号，用最大最小的方法保障不会越界
-				int y = (int) Math.min(Math.max((Math.round((StdDraw.mouseY() - 150) / 45) - 1), 0),
-						Math.min((Math.round((StdDraw.mouseY() - 150) / 45) - 1), 14));
-				x = Math.max(x, 0);
-				y = Math.max(y, 0);// 这里单独写是因为前面太长了，这部分应该可以单独写一个方法
+				int x = crossX();
+				int y = crossY();
 				if (haschess[x][y][0] == 0) {
-					StdDraw.filledCircle(chesslocal[x][y][0], chesslocal[x][y][1], 20);
+					// 下棋 todo
+					StdDraw.filledCircle(chesslocal[x][y][0], chesslocal[x][y][1], getPenRadius());// 判断是否有棋子，并且添加棋子
 					haschess[x][y][0] = color ? 1 : 2;
 					color = !color;
 				}
@@ -72,4 +102,33 @@ public class ChessBoardView {
 
 		}
 	}
+
+	//以下均为辅助函数
+	private int crossX() {
+		int x = (int) Math.min(Math.max((Math.round((StdDraw.mouseX() - 140) / grid) - 1), 0),
+				Math.min((Math.round((StdDraw.mouseX() - 140) / grid) - 1), size - 1));
+		x = Math.max(x, 0);// 计算出距离鼠标最近的交点的序号，用最大最小的方法保障不会越界
+		return x;
+
+	}
+
+	private int crossY() {
+		int y = (int) Math.min(Math.max((Math.round((StdDraw.mouseY() - 150) / grid) - 1), 0),
+				Math.min((Math.round((StdDraw.mouseY() - 150) / grid) - 1), size - 1));
+		y = Math.max(y, 0);
+		return y;
+	}
+
+	private double getPenRadius() {
+		switch (size) {
+			case 15:
+				return 20;
+			case 17:
+				return 17.5;
+			case 19:
+				return 15;
+		}
+		return 20;
+	}
+
 }

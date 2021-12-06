@@ -14,19 +14,38 @@ package com.company.gomoku.view;
 
 import com.sustc.stdlib.StdDraw;
 
-public class Interface {
-	public static void Start() {
+public class Interface implements Button.OnClickListener {
+
+	private Button newGame;
+
+	public Interface() {
 		StdDraw.setCanvasSize(800, 800);
 		StdDraw.setXscale(0, 1000);
 		StdDraw.setYscale(0, 1000);
 		// StdDraw.picture(x, y, filename, scaledWidth, scaledHeight);
-		Button newGame = new Button(300, 120, 725, 775, "新游戏");
-		Button.isPressed();
+		newGame = new Button(300, 120, 725, 775, "新游戏");
+		newGame.setOnClickListener(this);
 	}
 
-	public static void PlayInterface() {
-		ChessBoard board = new ChessBoard(19);
-		board.play();
+	public void start() {
+		while (true) {
+			if (StdDraw.isMousePressed()) {
+				double mouseX = StdDraw.mouseX();
+				double mouseY = StdDraw.mouseY();
+				newGame.checkPressed(mouseX, mouseY);
+			}
+		}
+	}
 
+	@Override
+	public void onClick(Button view) {
+		if (view == newGame) {
+			play();
+		}
+	}
+
+	public void play() {
+		ChessBoardView board = new ChessBoardView(19);
+		board.play();
 	}
 }
