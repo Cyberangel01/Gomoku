@@ -7,7 +7,7 @@ public class Player {
 
     private String name;
 
-    private Color color;
+    private ChessColor chessColor;
 
     public Player() {
     }
@@ -24,11 +24,19 @@ public class Player {
         this.name = name;
     }
 
-    public Color getColor() {
-        return color;
+    public ChessColor getChessColor() {
+        return chessColor;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public void setChessColor(ChessColor chessColor) {
+        this.chessColor = chessColor;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", chessColor=" + chessColor +
+                '}';
     }
 }

@@ -43,7 +43,7 @@ public class Button {
 	}
 
 	public void drawButton() {
-		StdDraw.picture(centerX, centerY, "Button.jpg", scaleX, scaleY);// Button.jpg只是测试品，具体使用待定
+//		StdDraw.picture(centerX, centerY, "Button.jpg", scaleX, scaleY);// Button.jpg只是测试品，具体使用待定
 		StdDraw.text(centerX, centerY, text);
 	}
 

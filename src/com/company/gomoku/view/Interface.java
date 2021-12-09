@@ -12,6 +12,7 @@ package com.company.gomoku.view;
  * 	2021.12.6
  */
 
+import com.company.gomoku.controller.GameController;
 import com.sustc.stdlib.StdDraw;
 
 public class Interface implements Button.OnClickListener {
@@ -45,7 +46,8 @@ public class Interface implements Button.OnClickListener {
 	}
 
 	public void play() {
-		ChessBoardView board = new ChessBoardView(19);
-		board.play();
+		GameController gameController = new GameController();
+		gameController.startPeopleGame(19, "James", "Kobe");
+		gameController.getChessBoardView().play();
 	}
 }

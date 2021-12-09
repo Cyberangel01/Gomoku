@@ -15,6 +15,9 @@ package com.company.gomoku.view;
  */
 
 import com.company.gomoku.controller.IGameController;
+import com.company.gomoku.model.Player;
+import com.company.gomoku.util.CException;
+import com.company.gomoku.util.Logger;
 import com.sustc.stdlib.StdDraw;
 
 public class ChessBoardView {
@@ -82,24 +85,27 @@ public class ChessBoardView {
 	 */
 	public void play() {
 		StdDraw.pause(300);
-		int[][][] haschess = new int[size][size][1];// 1代表黑子，2代表白子
-		boolean color = true;// true代表黑子
 		while (true) {
-			StdDraw.setPenColor(color ? StdDraw.BLACK : StdDraw.WHITE);
 			if (StdDraw.isMousePressed()) {
 				// 鼠标监听
 				int x = crossX();
 				int y = crossY();
-				if (haschess[x][y][0] == 0) {
-					// 下棋 todo
-					StdDraw.filledCircle(chesslocal[x][y][0], chesslocal[x][y][1], getPenRadius());// 判断是否有棋子，并且添加棋子
-					haschess[x][y][0] = color ? 1 : 2;
-					color = !color;
+				try {
+					Player nowPlayer = gameController.getNowTurnPlayer();
+					boolean isWin = gameController.playChess(x, y);
+					// 下棋
+					StdDraw.setPenColor(nowPlayer.getChessColor().getColor());
+					StdDraw.filledCircle(chesslocal[x][y][0], chesslocal[x][y][1], getPenRadius());
+					if (isWin) {
+						Logger.info(nowPlayer + " win!!!");
+						break;
+					}
+				} catch (CException e) {
+					Logger.error(e.getMessage());
 				}
 				StdDraw.show();
 				StdDraw.pause(300);
 			}
-
 		}
 	}
 

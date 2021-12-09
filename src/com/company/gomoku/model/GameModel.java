@@ -22,12 +22,12 @@ public class GameModel {
         // 黑棋先走，随机哪个玩家是黑棋
         Random random = new Random();
         if (random.nextInt(2) == 1) {
-            playerA.setColor(Color.BLACK);
-            playerB.setColor(Color.WHITE);
+            playerA.setChessColor(ChessColor.BLACK);
+            playerB.setChessColor(ChessColor.WHITE);
             nowTurnIndex = 0;
         } else {
-            playerA.setColor(Color.WHITE);
-            playerB.setColor(Color.BLACK);
+            playerA.setChessColor(ChessColor.WHITE);
+            playerB.setChessColor(ChessColor.BLACK);
             nowTurnIndex = 1;
         }
         players.add(playerA);
@@ -56,10 +56,17 @@ public class GameModel {
     /**
      * 下棋
      */
-    public void playChess(int row, int col) throws CException {
+    public boolean playChess(int row, int col) throws CException {
         Player player = getNowTurnPlayer();
-        chessBoardModel.playChess(row, col, player.getColor());
-        nextTurn();
+        if (!chessBoardModel.hasChess(row, col)) {
+            chessBoardModel.playChess(row, col, player.getChessColor());
+            // 赢了返回 true
+            if (chessBoardModel.checkWin(row, col)) {
+                return true;
+            }
+            nextTurn();
+        }
+        return false;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.company.gomoku.controller;
 
+import com.company.gomoku.model.Player;
 import com.company.gomoku.util.CException;
 
 public interface IGameController {
@@ -20,5 +21,8 @@ public interface IGameController {
      * @param col col
      * @throws CException CException
      */
-    void playChess(int row, int col) throws CException;
+    boolean playChess(int row, int col) throws CException;
+
+
+    Player getNowTurnPlayer();
 }

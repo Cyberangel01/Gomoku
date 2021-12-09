@@ -1,6 +1,7 @@
 package com.company.gomoku.controller;
 
 import com.company.gomoku.model.GameModel;
+import com.company.gomoku.model.Player;
 import com.company.gomoku.util.CException;
 import com.company.gomoku.view.ChessBoardView;
 
@@ -26,8 +27,16 @@ public class GameController implements IGameController{
     }
 
     @Override
-    public void playChess(int row, int col) throws CException {
-        gameModel.playChess(row, col);
+    public boolean playChess(int row, int col) throws CException {
+        return gameModel.playChess(row, col);
     }
 
+    @Override
+    public Player getNowTurnPlayer() {
+        return gameModel.getNowTurnPlayer();
+    }
+
+    public ChessBoardView getChessBoardView() {
+        return chessBoardView;
+    }
 }
