@@ -58,14 +58,15 @@ public class GameModel {
      */
     public boolean playChess(int row, int col) throws CException {
         Player player = getNowTurnPlayer();
-        if (!chessBoardModel.hasChess(row, col)) {
-            chessBoardModel.playChess(row, col, player.getChessColor());
-            // 赢了返回 true
-            if (chessBoardModel.checkWin(row, col)) {
-                return true;
-            }
-            nextTurn();
+        if (chessBoardModel.hasChess(row, col)) {
+            throw new CException(CException.OUT_OF_BOUND, "repetition move");
         }
+        chessBoardModel.playChess(row, col, player.getChessColor());
+        // 赢了返回 true
+        if (chessBoardModel.checkWin(row, col)) {
+            return true;
+        }
+        nextTurn();
         return false;
     }
 

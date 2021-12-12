@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class ChessBoardModel {
 
-    private static final int[] CHECK_ARRAY = new int[]{-4, -3, -2, -1, 0, 1, 2, 3, 4};
+
 
     private static final int WIN_NUM = 5;
 
@@ -32,11 +32,47 @@ public class ChessBoardModel {
      */
     public void playChess(int row, int col, ChessColor chessColor) throws CException {
         if (isInBound(row, col)) {
-            // todo 下棋三三禁手
+            if (isForBiddenMoves(row, col, chessColor)) {
+                throw new CException(CException.FORBIDDEN_MOVE, "can not play chess by forbidden move");
+            }
             board[row][col] = chessColor.getValue();
         } else {
-            throw new CException("can not play chess outside the chessboard");
+            throw new CException(CException.OUT_OF_BOUND, "can not play chess outside the chessboard");
         }
+    }
+
+    private boolean isForBiddenMoves(int row, int col, ChessColor chessColor) {
+        // 白色没有禁手
+        if (chessColor == ChessColor.WHITE) {
+            return false;
+        }
+        // 假设下了黑棋
+        board[row][col] = ChessColor.BLACK.getValue();
+        // 扩大查找返回，构成活三，就禁手
+        for (int x = row - 2; x <= row + 2; x++) {
+            for (int y = col - 2; y <= col + 2; y++) {
+                if (isInBound(x, y) && board[x][y] == ChessColor.BLACK.getValue()) {
+                    if (isForBiddenMoves(x, y)) {
+                        board[row][col] = 0;
+                        return true;
+                    }
+                }
+            }
+        }
+        board[row][col] = 0;
+        return false;
+    }
+
+    private boolean isForBiddenMoves(int row, int col) {
+        // 黑色不能同时组两个活三
+        int count = 0;
+        for (ChessRow chessRow : ChessRow.values()) {
+            ChessRow.ChessRowPair chessRowPair = chessRow.getRows(row, col, board);
+            if (checkLiveThree(chessRowPair.rowList, chessRowPair.centerIndex)) {
+                count++;
+            }
+        }
+        return count > 1;
     }
 
     private boolean isInBound(int row, int col) {
@@ -47,35 +83,44 @@ public class ChessBoardModel {
      * 判断当前棋局是否有胜出者
      */
     public boolean checkWin(int row, int col) {
-        // 横
-        List<Integer> rowList = new ArrayList<>();
-        for (int value : CHECK_ARRAY) {
-            if (isInBound(row + value, col)) {
-                rowList.add(board[row + value][col]);
+        for (ChessRow chessRow : ChessRow.values()) {
+            ChessRow.ChessRowPair chessRowPair = chessRow.getRows(row, col, board);
+            if (checkRow(chessRowPair.rowList)) {
+                return true;
             }
         }
-        // 竖
-        List<Integer> colList = new ArrayList<>();
-        for (int value : CHECK_ARRAY) {
-            if (isInBound(row, col + value)) {
-                colList.add(board[row][col + value]);
+        return false;
+    }
+
+    /**
+     * 验证是否是活三
+     * @return 是否是活三
+     */
+    private boolean checkLiveThree(List<Integer> row, int centerIndex) {
+        int count = 1;
+        // 探右
+        for (int i = centerIndex + 1; i < row.size(); i++) {
+            if (row.get(i) == ChessColor.BLACK.getValue()) {
+                count++;
+            } else if (row.get(i) == 0) {
+                break;
+            } else {
+                // 尽头有白棋，直接非活三
+                return false;
             }
         }
-        // 左上右下
-        List<Integer> diagonalListA = new ArrayList<>();
-        for (int value : CHECK_ARRAY) {
-            if (isInBound(row + value, col + value)) {
-                diagonalListA.add(board[row + value][col + value]);
+        // 探左
+        for (int i = centerIndex - 1; i >= 0; i--) {
+            if (row.get(i) == ChessColor.BLACK.getValue()) {
+                count++;
+            } else if (row.get(i) == 0) {
+                break;
+            } else {
+                // 尽头有白棋，直接非活三
+                return false;
             }
         }
-        // 右上左下
-        List<Integer> diagonalListB = new ArrayList<>();
-        for (int value : CHECK_ARRAY) {
-            if (isInBound(row + value, col - value)) {
-                diagonalListB.add(board[row + value][col - value]);
-            }
-        }
-        return checkRow(rowList) || checkRow(colList) || checkRow(diagonalListA) || checkRow(diagonalListB);
+        return count >= 3;
     }
 
     private boolean checkRow(List<Integer> row) {
