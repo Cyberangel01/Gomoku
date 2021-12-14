@@ -6,34 +6,34 @@ import edu.princeton.cs.algs4.StdDraw;
 
 public class ChessBoard {
 	/*
-	 * Õâ¸öÆåÅÌÍâ¿ò´óĞ¡¹Ì¶¨£¬x·¶Î§£¨140£¬860£©£¬y·¶Î§£¨150£¬870£©
+	 * è¿™ä¸ªæ£‹ç›˜å¤–æ¡†å¤§å°å›ºå®šï¼ŒxèŒƒå›´ï¼ˆ140ï¼Œ860ï¼‰ï¼ŒyèŒƒå›´ï¼ˆ150ï¼Œ870ï¼‰
 	 */
 	static int size = 15;
-	double[][][] chesslocal;
+	double[][][] chesslocal;//æ ‡å®šé¼ æ ‡ä½ç½®çš„ï¼Œè·Ÿé¼ æ ‡ç›‘å¬æœ‰å…³
 	int grid;
-	static boolean color;// true´ú±íºÚ×Ó
-	int[][][] haschess;
-	// ÒÔÏÂÈı¸ö±äÁ¿ÊµÏÖ»ÚÆå
+	static boolean color;// trueä»£è¡¨é»‘å­
+	int[][][] haschess;//éœ€è¦çŸ¥é“å“ªé‡Œæœ‰æ£‹å­æ—¶è°ƒç”¨è¿™ä¸ª
+	// ä»¥ä¸‹ä¸‰ä¸ªå˜é‡å®ç°æ‚”æ£‹
 	private int[][][] haschess1, haschess2;
 	private int step;
 
-//----------------------------³õÊ¼»¯----------------------------------//
+//----------------------------åˆå§‹åŒ–----------------------------------//
 	public ChessBoard() {
 		color = true;
 		chesslocal = new double[size][size][2];
-		haschess = new int[size][size][1];// 1´ú±íºÚ×Ó£¬2´ú±í°××Ó
+		haschess = new int[size][size][1];// 1ä»£è¡¨é»‘å­ï¼Œ2ä»£è¡¨ç™½å­
 		haschess1 = new int[size][size][1];
 		haschess2 = new int[size][size][1];
 		step = 0;
 		grid = (720 / (size + 1));
 	}
 
-//------------------------¹©µ÷ÓÃµÄ»æÖÆ·½·¨-----------------------------//
+//------------------------ä¾›è°ƒç”¨çš„ç»˜åˆ¶æ–¹æ³•-----------------------------//
 	public void draw() {
 		drawChessBoard();
 	}
 
-	public void draw(Scanner readsave) {// ¶ÁÈ¡´æµµ
+	public void draw(Scanner readsave) {// è¯»å–å­˜æ¡£
 		drawChessBoard();
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -45,7 +45,7 @@ public class ChessBoard {
 		readsave.close();
 	}
 
-	public void draw(String mark) {// »ÚÆå
+	public void draw(String mark) {// æ‚”æ£‹
 		StdDraw.enableDoubleBuffering();
 		drawChessBoard();
 		for (int i = 0; i < size; i++) {
@@ -65,49 +65,49 @@ public class ChessBoard {
 		StdDraw.disableDoubleBuffering();
 	}
 
-	// ÕâÈı¸ö´úÂë¶¼µ÷ÓÃÁËÏÂÃæÄÇ¸ö£¬ÊµÏÖÁË´úÂëµÄÖØÓÃ
-//---------------------------»æÖÆ´úÂë-------------------------------//
+	
+//---------------------------è¾…åŠ©å‡½æ•°-------------------------------//
 	private void drawChessBoard() {
 		StdDraw.setPenColor();
 
 		int centerX = 140 + (grid * (size + 1) / 2);
 		int centerY = 150 + (grid * (size + 1) / 2);
 
-		StdDraw.picture(centerX, centerY, "test.jpg", 730, 730);// ²åÈëÆåÅÌ±³¾°
-		StdDraw.filledCircle(centerX, centerY, 5);// »æÖÆÖĞĞÄµã
+		StdDraw.picture(centerX, centerY, "test.jpg", 730, 730);// æ’å…¥æ£‹ç›˜èƒŒæ™¯
+		StdDraw.filledCircle(centerX, centerY, 5);// ç»˜åˆ¶ä¸­å¿ƒç‚¹
 
-		// »æÖÆÍâ±ß¿ò
+		// ç»˜åˆ¶å¤–è¾¹æ¡†
 		double[] x = { 135, 865, 865, 135 };
 		double[] y = { 145, 145, 875, 875 };
 		StdDraw.polygon(x, y);
 
-		// »æÖÆÄÚ±ß¿ò
+		// ç»˜åˆ¶å†…è¾¹æ¡†
 		double[] x_ = { 140, 860, 860, 140 };
 		double[] y_ = { 150, 150, 870, 870 };
 		StdDraw.polygon(x_, y_);
 
-		// »æÖÆÏß¸ñ
+		// ç»˜åˆ¶çº¿æ ¼
 		for (int i = 0; i < size; i++) {
-			StdDraw.line(140 + (grid * (i + 1)), 150, 140 + grid * (i + 1), 870);// ÒÀ´Î»æÖÆÊúÏß
-			StdDraw.line(140, 150 + (grid * (i + 1)), 860, 150 + grid * (i + 1));// ÒÀ´Î»æÖÆºáÏß
+			StdDraw.line(140 + (grid * (i + 1)), 150, 140 + grid * (i + 1), 870);// ä¾æ¬¡ç»˜åˆ¶ç«–çº¿
+			StdDraw.line(140, 150 + (grid * (i + 1)), 860, 150 + grid * (i + 1));// ä¾æ¬¡ç»˜åˆ¶æ¨ªçº¿
 			for (int j = 0; j < size; j++) {
-				chesslocal[i][j][0] = 140 + ((720 / (size + 1)) * (i + 1));// »ñÈ¡Ã¿¸ö½»µãµÄx×ø±ê
-				chesslocal[j][i][1] = 150 + ((720 / (size + 1)) * (i + 1));// »ñÈ¡Ã¿¸ö½»µãµÄy×ø±ê
+				chesslocal[i][j][0] = 140 + ((720 / (size + 1)) * (i + 1));// è·å–æ¯ä¸ªäº¤ç‚¹çš„xåæ ‡
+				chesslocal[j][i][1] = 150 + ((720 / (size + 1)) * (i + 1));// è·å–æ¯ä¸ªäº¤ç‚¹çš„yåæ ‡
 			}
 		}
 		StdDraw.setPenRadius();
 	}
 
-//---------------------------Âä×Ó´úÂë-------------------------------//
+//---------------------------è½å­ä»£ç -------------------------------//
 	public void play(double x_, double y_) {
-		// Êó±ê¼àÌı
+		// é¼ æ ‡ç›‘å¬
 		int x = CrossX(x_);
 		int y = CrossY(y_);
-		// ´¢´æ´úÂë
+		// å‚¨å­˜ä»£ç 
 		if (x < 0 || x > size - 1 || y < 0 || y > size - 1) {
-			// ÕâÀïÉæ¼°µ½Ò»¸öÅĞ¶Ï´ÎÊıµÄÎÊÌâ
-			// ¿¼ÂÇµ½´ó²¿·ÖÊ±¼äÊÇÔÚÆåÅÌÖĞ²Ù×÷£¬Èç¹ûÅĞ¶ÏÊó±êÊÇ·ñÔÚÆåÅÌÖĞ£¬Ôò¶àÊıÇé¿öÏÂÒªÅĞ¶ÏËÄ»Ø
-			// °´ÕâĞ©´úÂë´¦Àí£¬ÅĞ¶ÏµÄÆÚÍûÖµÓ¦¸ÃÊÇ2£¨¹À¼Æ£©£¬ÉõÖÁ¸üµÍ
+			// è¿™é‡Œæ¶‰åŠåˆ°ä¸€ä¸ªåˆ¤æ–­æ¬¡æ•°çš„é—®é¢˜
+			// è€ƒè™‘åˆ°å¤§éƒ¨åˆ†æ—¶é—´æ˜¯åœ¨æ£‹ç›˜ä¸­æ“ä½œï¼Œå¦‚æœåˆ¤æ–­é¼ æ ‡æ˜¯å¦åœ¨æ£‹ç›˜ä¸­ï¼Œåˆ™å¤šæ•°æƒ…å†µä¸‹è¦åˆ¤æ–­å››å›
+			// æŒ‰è¿™äº›ä»£ç å¤„ç†ï¼Œåˆ¤æ–­çš„æœŸæœ›å€¼åº”è¯¥æ˜¯2ï¼ˆä¼°è®¡ï¼‰ï¼Œç”šè‡³æ›´ä½
 		} else {
 			if (step == 1)
 				for (int i = 0; i < size; i++) {
@@ -122,10 +122,10 @@ public class ChessBoard {
 					}
 				}
 			}
-			// ÕıÊ½ÏÂÆå
+			// æ­£å¼ä¸‹æ£‹
 			if (haschess[x][y][0] == 0) {
 				StdDraw.setPenColor(color ? StdDraw.BLACK : StdDraw.WHITE);
-				StdDraw.filledCircle(chesslocal[x][y][0], chesslocal[x][y][1], getPenRadius());// ÅĞ¶ÏÊÇ·ñÓĞÆå×Ó£¬²¢ÇÒÌí¼ÓÆå×Ó
+				StdDraw.filledCircle(chesslocal[x][y][0], chesslocal[x][y][1], getPenRadius());// åˆ¤æ–­æ˜¯å¦æœ‰æ£‹å­ï¼Œå¹¶ä¸”æ·»åŠ æ£‹å­
 				haschess[x][y][0] = color ? 1 : 2;
 				color = !color;
 				step++;
@@ -134,7 +134,7 @@ public class ChessBoard {
 		}
 	}
 
-//---------------------------¸¨Öúº¯Êı-------------------------------//
+//---------------------------è¾…åŠ©å‡½æ•°-------------------------------//ä¸ç”¨ç®¡ï¼Œåªèµ·åˆ°è¾…åŠ©åŠŸèƒ½
 	private int CrossX(double x) {
 
 		return (int) (Math.round((x - 140) / grid) - 1);
@@ -168,7 +168,7 @@ public class ChessBoard {
 			StdDraw.filledCircle(chesslocal[i][j][0], chesslocal[i][j][1], getPenRadius());
 			break;
 		case 2:
-			color = true;// ÕâÑù×Ó×îºóÒ»´ÎÖ´ĞĞ¾ÍÄÜ¾ö¶¨ÏÂÒ»´ÎµÄÂä×ÓÑÕÉ«
+			color = true;// æœ€åä¸€æ¬¡æ‰§è¡Œå†³å®šä¸‹ä¸€æ¬¡çš„è½å­é¢œè‰²
 			StdDraw.setPenColor(StdDraw.WHITE);
 			StdDraw.filledCircle(chesslocal[i][j][0], chesslocal[i][j][1], getPenRadius());
 			break;
