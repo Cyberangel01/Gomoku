@@ -6,17 +6,16 @@ import java.util.Scanner;
 
 import edu.princeton.cs.algs4.StdDraw;
 
-//×¢Òâ£¬ÓÉÓÚĞèÒªÍ¨¹ı¹¹ÔìÆ÷À´½«°´Å¥Ìí¼Óµ½¼¯ºÏÖĞ£¬ÔÚÊ¹ÓÃ½çÃæÇ°±ØĞëÏÈ½«ÆäÊµÀı»¯
-public class Interface {
+public class Interface {//çˆ¶ç±»è¯´æ˜äº†è¿™äº›ç±»çš„åŸºæœ¬æˆå‘˜å’ŒåŸºæœ¬æ–¹æ³•
 	static ArrayList<Button> buttons;
 
-	public static void draw() {
+	public static void draw() {//ç»˜åˆ¶ç•Œé¢
 	}
 
-	public static void hook(double x, double y) {
+	public static void hook(double x, double y) {//è°ƒç”¨æ•´ä¸ªç•Œé¢çš„æŒ‰é’®åˆ¤æ–­
 	}
 
-//¸¨Öúº¯Êı
+//è¾…åŠ©å‡½æ•°
 	protected static void drawButtons() {
 		for (int i = 0; i < buttons.size(); i++) {
 			buttons.get(i).drawButton();
@@ -25,10 +24,10 @@ public class Interface {
 }
 
 class StartInterface extends Interface {
-	private static Button newGame = new Button(300, 120, 500, 505, "ĞÂÓÎÏ·", 4);
-	private static Button continued = new Button(300, 120, 500, 370, "¼ÌĞøÓÎÏ·", 6);
-	private static Button option = new Button(300, 120, 500, 235, "Ñ¡Ïî", 3);
-	private static Button exit = new Button(300, 120, 500, 100, "ÍË³ö", 0);
+	private static Button newGame = new Button(300, 120, 500, 505, "æ–°æ¸¸æˆ", 4);
+	private static Button continued = new Button(300, 120, 500, 370, "ç»§ç»­æ¸¸æˆ", 6);
+	private static Button option = new Button(300, 120, 500, 235, "é€‰é¡¹", 3);
+	private static Button exit = new Button(300, 120, 500, 100, "é€€å‡º", 0);
 	private static Button[] buttons = { newGame, continued, option, exit };
 
 	public static void draw() {
@@ -37,7 +36,7 @@ class StartInterface extends Interface {
 		StdDraw.picture(500, 500, "background3.jpg");
 		StdDraw.setFont(new Font("Arival", Font.BOLD, 70));
 		StdDraw.setPenColor();
-		StdDraw.text(500, 700, "Îå×ÓÆå");
+		StdDraw.text(500, 700, "äº”å­æ£‹");
 		StdDraw.setPenColor();
 		drawButtons();
 		StdDraw.show();
@@ -61,8 +60,8 @@ class StartInterface extends Interface {
 }
 
 class ModeInterface extends Interface {
-	private static Button playersGame = new Button(300, 150, 500, 600, "Íæ¼Ò¶ÔÕ½", 41);
-	private static Button aiGame = new Button(300, 150, 500, 300, "ÈË¹¤ÖÇÕÏ", 42);
+	private static Button playersGame = new Button(300, 150, 500, 600, "ç©å®¶å¯¹æˆ˜", 41);
+	private static Button aiGame = new Button(300, 150, 500, 300, "äººå·¥æ™ºéšœ", 42);
 	private static Button[] buttons = { playersGame, aiGame };
 
 	public static void draw() {
@@ -70,7 +69,7 @@ class ModeInterface extends Interface {
 		StdDraw.clear();
 		StdDraw.picture(500, 500, "background3.jpg");
 		StdDraw.setFont(new Font("Arival", Font.BOLD, 70));
-		StdDraw.text(500, 800, "ÏëºÍË­À´Ò»°Ñ£¿");
+		StdDraw.text(500, 800, "æƒ³å’Œè°æ¥ä¸€æŠŠï¼Ÿ");
 		drawButtons();
 		StdDraw.show();
 		StdDraw.disableDoubleBuffering();
@@ -100,7 +99,7 @@ class OptionInterface extends Interface {
 		StdDraw.clear();
 		StdDraw.picture(500, 500, "background3.jpg");
 		StdDraw.setFont(new Font("Arival", Font.BOLD, 70));
-		StdDraw.text(500, 800, "ÇëÑ¡ÔñÆåÅÌ´óĞ¡");
+		StdDraw.text(500, 800, "è¯·é€‰æ‹©æ£‹ç›˜å¤§å°");
 		drawButtons();
 		StdDraw.show();
 		StdDraw.disableDoubleBuffering();
@@ -122,15 +121,15 @@ class OptionInterface extends Interface {
 }
 
 class PlayInterface extends Interface {
-	private static Button undo = new Button(120, 60, 790, 60, "»ÚÆå", 7, 25);
-	private static Button menu = new Button(120, 60, 80, 60, "·µ»Ø²Ëµ¥", 1, 25);
-	private static Button restart = new Button(120, 60, 260, 60, "ÖØĞÂ¿ªÊ¼", 2, 25);// ÕâÀïÓĞ¸ö´ı½â¾öµÄbug
-	private static Button pause = new Button(120, 60, 500, 60, "ÔİÍ£", 5, 25);
-	private static Button exit = new Button(120, 60, 920, 60, "ÍË³ö", 0, 25);
+	private static Button undo = new Button(120, 60, 790, 60, "æ‚”æ£‹", 7, 25);
+	private static Button menu = new Button(120, 60, 80, 60, "è¿”å›èœå•", 1, 25);
+	private static Button restart = new Button(120, 60, 260, 60, "é‡æ–°å¼€å§‹", 2, 25);// è¿™é‡Œæœ‰ä¸ªå¾…è§£å†³çš„bug
+	private static Button pause = new Button(120, 60, 500, 60, "æš‚åœ", 5, 25);
+	private static Button exit = new Button(120, 60, 920, 60, "é€€å‡º", 0, 25);
 	private static Button[] buttons = { undo, menu, restart, pause, exit };
 	static ChessBoard board;
 
-//ÕâÀïdraw·½·¨±È½Ï¸´ÔÓ£¬ÒòÎªÕâ¸öÀàµÄdrawÒªÊµÏÖ¶ÁµµµÄ¹¦ÄÜ£¬ĞèÒª¶ÀÌØµÄdraw·½·¨
+//è¿™é‡Œdrawæ–¹æ³•æ¯”è¾ƒå¤æ‚ï¼Œå› ä¸ºè¿™ä¸ªç±»çš„drawè¦å®ç°è¯»æ¡£çš„åŠŸèƒ½ï¼Œéœ€è¦ç‹¬ç‰¹çš„drawæ–¹æ³•
 	public static void draw() {
 		board = new ChessBoard();
 		StdDraw.enableDoubleBuffering();
