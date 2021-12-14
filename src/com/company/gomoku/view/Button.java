@@ -16,7 +16,7 @@ public class Button {
 	String text;
 	int function;
 	int pound = 50;
-
+	//ä¸‰ä¸ªæ„é€ å™¨æ»¡è¶³ä¸åŒçš„æŒ‰é’®éœ€æ±‚
 	public Button(double centerX, double centerY, String te, int function) {
 		this.ScaleX = 120;
 		this.ScaleY = 240;
@@ -43,15 +43,13 @@ public class Button {
 		this.pound = pound;
 	}
 
-	public void drawButton() {
-		// StdDraw.picture(centerX, centerY, "test.jpg", ScaleX, ScaleY);//
-		// Button.jpgÖ»ÊÇ²âÊÔÆ·£¬¾ßÌåÊ¹ÓÃ´ı¶¨
+	public void drawButton() {//å­—ä½“å¯ä»¥æ ¹æ®éœ€è¦æ”¹å˜
 		StdDraw.setFont(new Font("Arival", Font.BOLD, pound));
 		// StdDraw.setPenColor();
 		StdDraw.text(centerX, centerY - 5, text);
 	}
 
-	public void isPressed(double x, double y) {// ÅĞ¶ÏÊÇ·ñ±»µã»÷
+	public void isPressed(double x, double y) {// åˆ¤æ–­æ˜¯å¦è¢«ç‚¹å‡»
 		double[] localX = { centerX - ScaleX / 2, centerX + ScaleX / 2 };
 		double[] localY = { centerY - ScaleY / 2, centerY + ScaleY / 2 };
 		if (include(x, y, localX, localY)) {
@@ -60,36 +58,24 @@ public class Button {
 
 	}
 
-	protected void function() {
+	protected void function() {//ä¸åŒçš„æŒ‰é’®å®ç°çš„åŠŸèƒ½ï¼Œmapåªèƒ½å‚¨å­˜å¯¹è±¡ï¼Œæ²¡æœ‰æ›´å¥½çš„æ–¹æ¡ˆå‰å…ˆç”¨switchç»“æ„
 
 		switch (function) {
-		case 0:// ÍË³ö
+		case 0:// é€€å‡º
 			save();
 			System.exit(0);
 			break;
-		case 1:// ²Ëµ¥½çÃæ
+		case 1:// èœå•ç•Œé¢
 			save();
 			StartInterface.draw();
 			break;
-		case 2:// ÓÎÏ·½çÃæ£¬ÕâÀïÓĞ¸ö´ı½â¾öµÄbug
+		case 2:
 			PlayInterface.draw();
-			StdDraw.show();
 			break;
-		case 3:// Ñ¡Ïî½çÃæ
-//			try {
-//				PrintWriter save = new PrintWriter("save.txt");
-//				int[][][] initialize = new int[19][19][1];
-//				for (int i = 0; i < 19; i++) {
-//					for (int j = 0; j < 19; j++) {
-//						save.print(initialize[i][j][0] + " ");
-//					}
-//				}
-//				save.close();
-//			} catch (FileNotFoundException e) {
-//			}
+		case 3:// é€‰é¡¹ç•Œé¢
 			OptionInterface.draw();
 			break;
-		case 31:// ÒÀ´ÎÎªÈıÖÖ´óĞ¡µÄÆåÅÌ
+		case 31:// ä¾æ¬¡ä¸ºä¸‰ç§å¤§å°çš„æ£‹ç›˜
 			ChessBoard.size = 15;
 			StartInterface.draw();
 			break;
@@ -101,36 +87,36 @@ public class Button {
 			ChessBoard.size = 19;
 			StartInterface.draw();
 			break;
-		case 4:// Ä£Ê½Ñ¡Ôñ½çÃæ
+		case 4:// æ¨¡å¼é€‰æ‹©ç•Œé¢
 			ModeInterface.draw();
 			break;
-		case 41:// Íæ¼Ò¶ÔÕ½
-			// ¶ÔÕ½´úÂë?
+		case 41:// ç©å®¶å¯¹æˆ˜
+			// å¯¹æˆ˜ä»£ç 
 			PlayInterface.draw();
 			// PlayInterface.draw();
 			break;
-		case 42:// ÈË¹¤ÖÇÕÏ
-			// ¶ÔÕ½´úÂë
+		case 42:// äººå·¥æ™ºéšœ
+			// å¯¹æˆ˜ä»£ç 
 			PlayInterface.draw();
 			break;
-		case 5:// ÔİÍ£
+		case 5:// æš‚åœï¼Œæœªå®ç°
 			break;
-		case 6:// µ¼Èë´æµµ,¼ÌĞøÓÎÏ·
+		case 6:// å¯¼å…¥å­˜æ¡£,ç»§ç»­æ¸¸æˆ
 			readsave();
 			break;
-		case 7:// »ÚÆå
-			PlayInterface.board.draw("»ÚÆå");
+		case 7:// æ‚”æ£‹
+			PlayInterface.board.draw("æ‚”æ£‹");
 			break;
 		}
 	}
 
-//¸¨Öúº¯Êı£¬ÅĞ¶ÏÊÇ·ñ°üº¬ÔÚButtonÖĞ
+//---------------------------------------è¾…åŠ©å‡½æ•°-------------------------------------------------//
 	private static boolean include(double x, double y, double[] localX, double[] localY) {
 		return x >= localX[0] && x <= localX[1] && y >= localY[0] && y <= localY[1];
 	}
 
 	private static void save() {
-		try {// ´æµµ
+		try {// å­˜æ¡£
 			PrintWriter save = new PrintWriter("save.txt");
 			int[][][] text = PlayInterface.board.haschess.clone();
 			for (int i = 0; i < PlayInterface.board.haschess.length; i++) {
@@ -145,7 +131,7 @@ public class Button {
 	}
 
 	private static void readsave() {
-		try {
+		try {//è¯»æ¡£
 			Scanner readsave = new Scanner(new File("save.txt"));
 			Scanner readsave_ = new Scanner(new File("save.txt"));
 			String s = readsave_.nextLine();
