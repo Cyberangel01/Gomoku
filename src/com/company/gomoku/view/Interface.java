@@ -1,53 +1,175 @@
-package com.company.gomoku.view;
+package view;
 
-/*
- * interfaceç±»å·²å®ç°åŠŸèƒ½ï¼š
- * 	startç•Œé¢ï¼ˆä¸å®Œæ•´ï¼‰
- * 	playç•Œé¢ï¼ˆä¸å®Œæ•´ï¼‰
- * 
- * interfaceç±»å¾…å®ç°åŠŸèƒ½ï¼š
- * 	é€‰é¡¹ç•Œé¢ï¼Œä»startç•Œé¢æ¥å…¥ï¼ŒåŒ…æ‹¬é€‰æ‹©æ£‹ç›˜å¤§å°
- * 	é€‰é¡¹ç•Œé¢ï¼Œä»startç•Œé¢æ¥å…¥ï¼Œé€‰æ‹©å¯¹æ‰‹ï¼Œäººæˆ–ç”µè„‘
- * 	
- * 	2021.12.6
- */
+import java.awt.Font;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-import com.company.gomoku.controller.GameController;
-import com.sustc.stdlib.StdDraw;
+import edu.princeton.cs.algs4.StdDraw;
 
-public class Interface implements Button.OnClickListener {
+//×¢Òâ£¬ÓÉÓÚĞèÒªÍ¨¹ı¹¹ÔìÆ÷À´½«°´Å¥Ìí¼Óµ½¼¯ºÏÖĞ£¬ÔÚÊ¹ÓÃ½çÃæÇ°±ØĞëÏÈ½«ÆäÊµÀı»¯
+public class Interface {
+	static ArrayList<Button> buttons;
 
-	private Button newGame;
-
-	public Interface() {
-		StdDraw.setCanvasSize(800, 800);
-		StdDraw.setXscale(0, 1000);
-		StdDraw.setYscale(0, 1000);
-		// StdDraw.picture(x, y, filename, scaledWidth, scaledHeight);
-		newGame = new Button(300, 120, 725, 775, "æ–°æ¸¸æˆ");
-		newGame.setOnClickListener(this);
+	public static void draw() {
 	}
 
-	public void start() {
-		while (true) {
-			if (StdDraw.isMousePressed()) {
-				double mouseX = StdDraw.mouseX();
-				double mouseY = StdDraw.mouseY();
-				newGame.checkPressed(mouseX, mouseY);
-			}
+	public static void hook(double x, double y) {
+	}
+
+//¸¨Öúº¯Êı
+	protected static void drawButtons() {
+		for (int i = 0; i < buttons.size(); i++) {
+			buttons.get(i).drawButton();
+		}
+	}
+}
+
+class StartInterface extends Interface {
+	private static Button newGame = new Button(300, 120, 500, 505, "ĞÂÓÎÏ·", 4);
+	private static Button continued = new Button(300, 120, 500, 370, "¼ÌĞøÓÎÏ·", 6);
+	private static Button option = new Button(300, 120, 500, 235, "Ñ¡Ïî", 3);
+	private static Button exit = new Button(300, 120, 500, 100, "ÍË³ö", 0);
+	private static Button[] buttons = { newGame, continued, option, exit };
+
+	public static void draw() {
+		StdDraw.enableDoubleBuffering();
+		StdDraw.clear();
+		StdDraw.picture(500, 500, "background3.jpg");
+		StdDraw.setFont(new Font("Arival", Font.BOLD, 70));
+		StdDraw.setPenColor();
+		StdDraw.text(500, 700, "Îå×ÓÆå");
+		StdDraw.setPenColor();
+		drawButtons();
+		StdDraw.show();
+		StdDraw.disableDoubleBuffering();
+		ViewMain.nowInterface = 0;
+	}
+
+	public static void hook(double x, double y) {
+		newGame.isPressed(x, y);
+		continued.isPressed(x, y);
+		option.isPressed(x, y);
+		exit.isPressed(x, y);
+	}
+
+	protected static void drawButtons() {
+		for (int i = 0; i < buttons.length; i++) {
+			buttons[i].drawButton();
 		}
 	}
 
-	@Override
-	public void onClick(Button view) {
-		if (view == newGame) {
-			play();
+}
+
+class ModeInterface extends Interface {
+	private static Button playersGame = new Button(300, 150, 500, 600, "Íæ¼Ò¶ÔÕ½", 41);
+	private static Button aiGame = new Button(300, 150, 500, 300, "ÈË¹¤ÖÇÕÏ", 42);
+	private static Button[] buttons = { playersGame, aiGame };
+
+	public static void draw() {
+		StdDraw.enableDoubleBuffering();
+		StdDraw.clear();
+		StdDraw.picture(500, 500, "background3.jpg");
+		StdDraw.setFont(new Font("Arival", Font.BOLD, 70));
+		StdDraw.text(500, 800, "ÏëºÍË­À´Ò»°Ñ£¿");
+		drawButtons();
+		StdDraw.show();
+		StdDraw.disableDoubleBuffering();
+		ViewMain.nowInterface = 1;
+	}
+
+	public static void hook(double x, double y) {
+		playersGame.isPressed(x, y);
+		aiGame.isPressed(x, y);
+	}
+
+	protected static void drawButtons() {
+		for (int i = 0; i < buttons.length; i++) {
+			buttons[i].drawButton();
+		}
+	}
+}
+
+class OptionInterface extends Interface {
+	private static Button size15 = new Button(300, 150, 500, 600, "15x15", 31);
+	private static Button size17 = new Button(300, 150, 500, 400, "17x17", 32);
+	private static Button size19 = new Button(300, 150, 500, 200, "19x19", 33);
+	private static Button[] buttons = { size15, size17, size19 };
+
+	public static void draw() {
+		StdDraw.enableDoubleBuffering();
+		StdDraw.clear();
+		StdDraw.picture(500, 500, "background3.jpg");
+		StdDraw.setFont(new Font("Arival", Font.BOLD, 70));
+		StdDraw.text(500, 800, "ÇëÑ¡ÔñÆåÅÌ´óĞ¡");
+		drawButtons();
+		StdDraw.show();
+		StdDraw.disableDoubleBuffering();
+		ViewMain.nowInterface = 2;
+	}
+
+	public static void hook(double x, double y) {
+		size15.isPressed(x, y);
+		size17.isPressed(x, y);
+		size19.isPressed(x, y);
+	}
+
+	protected static void drawButtons() {
+		for (int i = 0; i < buttons.length; i++) {
+			buttons[i].drawButton();
 		}
 	}
 
-	public void play() {
-		GameController gameController = new GameController();
-		gameController.startPeopleGame(19, "James", "Kobe");
-		gameController.getChessBoardView().play();
+}
+
+class PlayInterface extends Interface {
+	private static Button undo = new Button(120, 60, 790, 60, "»ÚÆå", 7, 25);
+	private static Button menu = new Button(120, 60, 80, 60, "·µ»Ø²Ëµ¥", 1, 25);
+	private static Button restart = new Button(120, 60, 260, 60, "ÖØĞÂ¿ªÊ¼", 2, 25);// ÕâÀïÓĞ¸ö´ı½â¾öµÄbug
+	private static Button pause = new Button(120, 60, 500, 60, "ÔİÍ£", 5, 25);
+	private static Button exit = new Button(120, 60, 920, 60, "ÍË³ö", 0, 25);
+	private static Button[] buttons = { undo, menu, restart, pause, exit };
+	static ChessBoard board;
+
+//ÕâÀïdraw·½·¨±È½Ï¸´ÔÓ£¬ÒòÎªÕâ¸öÀàµÄdrawÒªÊµÏÖ¶ÁµµµÄ¹¦ÄÜ£¬ĞèÒª¶ÀÌØµÄdraw·½·¨
+	public static void draw() {
+		board = new ChessBoard();
+		StdDraw.enableDoubleBuffering();
+		StdDraw.clear();
+		StdDraw.picture(500, 500, "background1.jpg", 1000, 1000);
+		board.draw();
+		StdDraw.setPenColor(StdDraw.WHITE);
+		drawButtons();
+		StdDraw.show();
+		StdDraw.disableDoubleBuffering();
+		ViewMain.nowInterface = 3;
 	}
+
+	public static void draw(Scanner readsave) {
+		board = new ChessBoard();
+		StdDraw.enableDoubleBuffering();
+		StdDraw.clear();
+		StdDraw.picture(500, 500, "background1.jpg", 1000, 1000);
+		board.draw(readsave);
+		StdDraw.setPenColor(StdDraw.WHITE);
+		drawButtons();
+		StdDraw.show();
+		StdDraw.disableDoubleBuffering();
+		ViewMain.nowInterface = 3;
+	}
+
+	public static void hook(double x, double y) {
+		board.play(x, y);
+		menu.isPressed(x, y);
+		pause.isPressed(x, y);
+		restart.isPressed(x, y);
+		exit.isPressed(x, y);
+		undo.isPressed(x, y);
+	}
+
+	protected static void drawButtons() {
+		for (int i = 0; i < buttons.length; i++) {
+			buttons[i].drawButton();
+		}
+	}
+
 }

@@ -1,68 +1,158 @@
-package com.company.gomoku.view;
+package view;
 
-/*
- * Buttonç±»å·²å®ç°åŠŸèƒ½ï¼š
- * 	è·³è½¬ï¼ˆå­ç±»é‡å†™ï¼ŒåŸºäºinterfaceç±»å®ç°ï¼‰
- * 
- * Buttonç±»å¾…è§£å†³é—®é¢˜ï¼š
- * 	Buttonä¸­çš„æ–‡å­—å¤ªå°ï¼Œéœ€è¦è°ƒæ•´
- * 	ç›®å‰è¿˜æ²¡æœ‰æ„é€ å­ç±»ï¼ŒfunctionåŠŸèƒ½éœ€è¦é‡å†™
- * 	å­ç±»åŒ…æ‹¬ï¼šæ–°æ¸¸æˆï¼Œç»§ç»­æ¸¸æˆï¼Œé‡æ–°å¼€å§‹ï¼Œé€‰é¡¹ï¼Œé€€å‡ºï¼Œï¼ˆæš‚åœï¼‰ï¼Œå›åˆ°ä¸»ç•Œé¢
- * 
- * 2021.12.6
- */
+import java.awt.Font;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
-import com.sustc.stdlib.StdDraw;
+import edu.princeton.cs.algs4.StdDraw;
 
 public class Button {
-	private double scaleX;
-	private double scaleY;
-	private double centerX;
-	private double centerY;
-	private String text;
-	private OnClickListener onClickListener;
+	double ScaleX;
+	double ScaleY;
+	double centerX;
+	double centerY;
+	String text;
+	int function;
+	int pound = 50;
 
-	public Button(double centerX, double centerY, String text) {
-		scaleX = 120;
-		scaleY = 240;
-		this.text = text;
-		drawButton();
+	public Button(double centerX, double centerY, String te, int function) {
+		this.ScaleX = 120;
+		this.ScaleY = 240;
+		this.text = te;
+		this.function = function;
 	}
 
-	public Button(double ScaleX, double ScaleY, double centerX, double centerY, String text) {
-		this.scaleX = ScaleX;
-		this.scaleY = ScaleY;
+	public Button(double ScaleX, double ScaleY, double centerX, double centerY, String te, int function) {
+		this.ScaleX = ScaleX;
+		this.ScaleY = ScaleY;
 		this.centerX = centerX;
 		this.centerY = centerY;
-		this.text = text;
-		drawButton();
+		text = te;
+		this.function = function;
 	}
 
-	public void setOnClickListener(OnClickListener onClickListener) {
-		this.onClickListener = onClickListener;
+	public Button(double ScaleX, double ScaleY, double centerX, double centerY, String te, int function, int pound) {
+		this.ScaleX = ScaleX;
+		this.ScaleY = ScaleY;
+		this.centerX = centerX;
+		this.centerY = centerY;
+		text = te;
+		this.function = function;
+		this.pound = pound;
 	}
 
 	public void drawButton() {
-//		StdDraw.picture(centerX, centerY, "Button.jpg", scaleX, scaleY);// Button.jpgåªæ˜¯æµ‹è¯•å“ï¼Œå…·ä½“ä½¿ç”¨å¾…å®š
-		StdDraw.text(centerX, centerY, text);
+		// StdDraw.picture(centerX, centerY, "test.jpg", ScaleX, ScaleY);//
+		// Button.jpgÖ»ÊÇ²âÊÔÆ·£¬¾ßÌåÊ¹ÓÃ´ı¶¨
+		StdDraw.setFont(new Font("Arival", Font.BOLD, pound));
+		// StdDraw.setPenColor();
+		StdDraw.text(centerX, centerY - 5, text);
 	}
 
-	// åˆ¤æ–­æ˜¯å¦è¢«ç‚¹å‡»
-	public void checkPressed(double mouseX, double mouseY) {
-		double[] localX = { centerX - scaleX / 2, centerX + scaleX / 2 };
-		double[] localY = { centerY - scaleY / 2, centerY + scaleY / 2 };
-		double[] mouse = { mouseX, mouseY };
-		if (include(mouse, localX, localY) && onClickListener != null) {
-			onClickListener.onClick(this);
+	public void isPressed(double x, double y) {// ÅĞ¶ÏÊÇ·ñ±»µã»÷
+		double[] localX = { centerX - ScaleX / 2, centerX + ScaleX / 2 };
+		double[] localY = { centerY - ScaleY / 2, centerY + ScaleY / 2 };
+		if (include(x, y, localX, localY)) {
+			function();
+		}
+
+	}
+
+	protected void function() {
+
+		switch (function) {
+		case 0:// ÍË³ö
+			save();
+			System.exit(0);
+			break;
+		case 1:// ²Ëµ¥½çÃæ
+			save();
+			StartInterface.draw();
+			break;
+		case 2:// ÓÎÏ·½çÃæ£¬ÕâÀïÓĞ¸ö´ı½â¾öµÄbug
+			PlayInterface.draw();
+			StdDraw.show();
+			break;
+		case 3:// Ñ¡Ïî½çÃæ
+//			try {
+//				PrintWriter save = new PrintWriter("save.txt");
+//				int[][][] initialize = new int[19][19][1];
+//				for (int i = 0; i < 19; i++) {
+//					for (int j = 0; j < 19; j++) {
+//						save.print(initialize[i][j][0] + " ");
+//					}
+//				}
+//				save.close();
+//			} catch (FileNotFoundException e) {
+//			}
+			OptionInterface.draw();
+			break;
+		case 31:// ÒÀ´ÎÎªÈıÖÖ´óĞ¡µÄÆåÅÌ
+			ChessBoard.size = 15;
+			StartInterface.draw();
+			break;
+		case 32:
+			ChessBoard.size = 17;
+			StartInterface.draw();
+			break;
+		case 33:
+			ChessBoard.size = 19;
+			StartInterface.draw();
+			break;
+		case 4:// Ä£Ê½Ñ¡Ôñ½çÃæ
+			ModeInterface.draw();
+			break;
+		case 41:// Íæ¼Ò¶ÔÕ½
+			// ¶ÔÕ½´úÂë?
+			PlayInterface.draw();
+			// PlayInterface.draw();
+			break;
+		case 42:// ÈË¹¤ÖÇÕÏ
+			// ¶ÔÕ½´úÂë
+			PlayInterface.draw();
+			break;
+		case 5:// ÔİÍ£
+			break;
+		case 6:// µ¼Èë´æµµ,¼ÌĞøÓÎÏ·
+			readsave();
+			break;
+		case 7:// »ÚÆå
+			PlayInterface.board.draw("»ÚÆå");
+			break;
 		}
 	}
 
-    //è¾…åŠ©å‡½æ•°ï¼Œåˆ¤æ–­æ˜¯å¦åŒ…å«åœ¨Buttonä¸­
-	private static boolean include(double[] x, double[] localX, double[] localY) {
-		return x[0] >= localX[0] && x[0] <= localX[1] && x[1] >= localY[0] && x[1] <= localY[1];
+//¸¨Öúº¯Êı£¬ÅĞ¶ÏÊÇ·ñ°üº¬ÔÚButtonÖĞ
+	private static boolean include(double x, double y, double[] localX, double[] localY) {
+		return x >= localX[0] && x <= localX[1] && y >= localY[0] && y <= localY[1];
 	}
 
-	interface OnClickListener {
-		void onClick(Button view);
+	private static void save() {
+		try {// ´æµµ
+			PrintWriter save = new PrintWriter("save.txt");
+			int[][][] text = PlayInterface.board.haschess.clone();
+			for (int i = 0; i < PlayInterface.board.haschess.length; i++) {
+				for (int j = 0; j < PlayInterface.board.haschess.length; j++) {
+					save.print(text[i][j][0] + " ");
+				}
+			}
+			save.close();
+		} catch (FileNotFoundException e) {
+		} catch (NullPointerException e) {
+		}
 	}
+
+	private static void readsave() {
+		try {
+			Scanner readsave = new Scanner(new File("save.txt"));
+			Scanner readsave_ = new Scanner(new File("save.txt"));
+			String s = readsave_.nextLine();
+			ChessBoard.size = (int) Math.sqrt(s.length() / 2);
+			PlayInterface.draw(readsave);
+		} catch (FileNotFoundException e) {
+		}
+	}
+
 }
