@@ -132,6 +132,7 @@ public class ChessBoard {
 			if (haschess[x][y] == 0) {
 				try {
 					ChessColor nowColor = color ? ChessColor.BLACK : ChessColor.WHITE;
+					// 人工智障前端加，随机一个下棋位置，调用此方法
 					boolean isWin = chessBoardModel.playChess(x, y, nowColor);
 					if (isWin) {
 						Logger.info(nowColor + " win");
