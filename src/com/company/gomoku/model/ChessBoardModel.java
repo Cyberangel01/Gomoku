@@ -2,7 +2,6 @@ package com.company.gomoku.model;
 
 import com.company.gomoku.util.CException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,17 +9,15 @@ import java.util.List;
  */
 public class ChessBoardModel {
 
-
-
     private static final int WIN_NUM = 5;
 
     private int size;
 
     private int[][] board;
 
-    public ChessBoardModel(int size) {
+    public ChessBoardModel(int size, int[][] board) {
         this.size = size;
-        this.board = new int[size][size];
+        this.board = board;
     }
 
     /**
@@ -29,8 +26,10 @@ public class ChessBoardModel {
      * @param col 列
      * @param chessColor 颜色
      * @throws CException 异常
+     * @return 是否获胜
      */
-    public void playChess(int row, int col, ChessColor chessColor) throws CException {
+    public boolean playChess(int row, int col, ChessColor chessColor) throws CException {
+        // 下棋操作
         if (isInBound(row, col)) {
             if (isForBiddenMoves(row, col, chessColor)) {
                 throw new CException(CException.FORBIDDEN_MOVE, "can not play chess by forbidden move");
@@ -39,6 +38,7 @@ public class ChessBoardModel {
         } else {
             throw new CException(CException.OUT_OF_BOUND, "can not play chess outside the chessboard");
         }
+        return checkWin(row, col);
     }
 
     private boolean isForBiddenMoves(int row, int col, ChessColor chessColor) {

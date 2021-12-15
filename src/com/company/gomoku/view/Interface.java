@@ -1,10 +1,10 @@
-package view;
+package com.company.gomoku.view;
+
+import com.sustc.stdlib.StdDraw;
 
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import edu.princeton.cs.algs4.StdDraw;
 
 public class Interface {//父类说明了这些类的基本成员和基本方法
 	static ArrayList<Button> buttons;

@@ -1,8 +1,12 @@
-package view;
+package com.company.gomoku.view;
+
+import com.company.gomoku.model.ChessBoardModel;
+import com.company.gomoku.model.ChessColor;
+import com.company.gomoku.util.CException;
+import com.company.gomoku.util.Logger;
+import com.sustc.stdlib.StdDraw;
 
 import java.util.Scanner;
-
-import edu.princeton.cs.algs4.StdDraw;
 
 public class ChessBoard {
 	/*
@@ -12,18 +16,20 @@ public class ChessBoard {
 	double[][][] chesslocal;//标定鼠标位置的，跟鼠标监听有关
 	int grid;
 	static boolean color;// true代表黑子
-	int[][][] haschess;//需要知道哪里有棋子时调用这个
+	int[][] haschess;//需要知道哪里有棋子时调用这个
 	// 以下三个变量实现悔棋
-	private int[][][] haschess1, haschess2;
+	private int[][] haschess1, haschess2;
 	private int step;
+	private ChessBoardModel chessBoardModel;
 
 //----------------------------初始化----------------------------------//
 	public ChessBoard() {
 		color = true;
 		chesslocal = new double[size][size][2];
-		haschess = new int[size][size][1];// 1代表黑子，2代表白子
-		haschess1 = new int[size][size][1];
-		haschess2 = new int[size][size][1];
+		haschess = new int[size][size];// 1代表黑子，2代表白子
+		chessBoardModel = new ChessBoardModel(size, haschess);
+		haschess1 = new int[size][size];
+		haschess2 = new int[size][size];
 		step = 0;
 		grid = (720 / (size + 1));
 	}
@@ -38,7 +44,7 @@ public class ChessBoard {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				int k = readsave.nextInt();
-				haschess[i][j][0] = k;
+				haschess[i][j] = k;
 				readThenDraw(k, i, j);
 			}
 		}
@@ -50,14 +56,14 @@ public class ChessBoard {
 		drawChessBoard();
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				int k = haschess1[i][j][0];
+				int k = haschess1[i][j];
 				readThenDraw(k, i, j);
 			}
 		}
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				haschess[i][j][0] = haschess1[i][j][0];
-				haschess1[i][j][0] = haschess2[i][j][0];
+				haschess[i][j] = haschess1[i][j];
+				haschess1[i][j] = haschess2[i][j];
 			}
 		}
 		step = Math.max(2, step - 1);
@@ -112,23 +118,31 @@ public class ChessBoard {
 			if (step == 1)
 				for (int i = 0; i < size; i++) {
 					for (int j = 0; j < size; j++)
-						haschess1[i][j][0] = haschess[i][j][0];
+						haschess1[i][j] = haschess[i][j];
 				}
 			if (step >= 2) {
 				for (int i = 0; i < size; i++) {
 					for (int j = 0; j < size; j++) {
-						haschess2[i][j][0] = haschess1[i][j][0];
-						haschess1[i][j][0] = haschess[i][j][0];
+						haschess2[i][j] = haschess1[i][j];
+						haschess1[i][j] = haschess[i][j];
 					}
 				}
 			}
 			// 正式下棋
-			if (haschess[x][y][0] == 0) {
-				StdDraw.setPenColor(color ? StdDraw.BLACK : StdDraw.WHITE);
-				StdDraw.filledCircle(chesslocal[x][y][0], chesslocal[x][y][1], getPenRadius());// 判断是否有棋子，并且添加棋子
-				haschess[x][y][0] = color ? 1 : 2;
-				color = !color;
-				step++;
+			if (haschess[x][y] == 0) {
+				try {
+					ChessColor nowColor = color ? ChessColor.BLACK : ChessColor.WHITE;
+					boolean isWin = chessBoardModel.playChess(x, y, nowColor);
+					if (isWin) {
+						Logger.info(nowColor + " win");
+					}
+					StdDraw.setPenColor(nowColor.getColor());
+					StdDraw.filledCircle(chesslocal[x][y][0], chesslocal[x][y][1], getPenRadius());// 判断是否有棋子，并且添加棋子
+					color = !color;
+					step++;
+				} catch (CException e) {
+					Logger.error(e.getMessage());
+				}
 			}
 			StdDraw.show();
 		}

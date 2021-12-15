@@ -1,6 +1,6 @@
-package view;
+package com.company.gomoku.view;
 
-import edu.princeton.cs.algs4.StdDraw;
+import com.sustc.stdlib.StdDraw;
 
 public class ViewMain {
 	static int nowInterface = 0;// 这个变量用来标定当前的界面

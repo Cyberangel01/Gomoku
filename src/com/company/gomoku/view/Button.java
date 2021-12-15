@@ -1,12 +1,12 @@
-package view;
+package com.company.gomoku.view;
+
+import com.sustc.stdlib.StdDraw;
 
 import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
-
-import edu.princeton.cs.algs4.StdDraw;
 
 public class Button {
 	double ScaleX;
@@ -118,10 +118,10 @@ public class Button {
 	private static void save() {
 		try {// 存档
 			PrintWriter save = new PrintWriter("save.txt");
-			int[][][] text = PlayInterface.board.haschess.clone();
+			int[][] text = PlayInterface.board.haschess.clone();
 			for (int i = 0; i < PlayInterface.board.haschess.length; i++) {
 				for (int j = 0; j < PlayInterface.board.haschess.length; j++) {
-					save.print(text[i][j][0] + " ");
+					save.print(text[i][j] + " ");
 				}
 			}
 			save.close();
