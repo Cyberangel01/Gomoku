@@ -9,7 +9,8 @@
 #### 代码框架规范
 idea工程
 **请使用idea开发**
-**前端写在view里**
+
+**ps:有个憨憨懒得折腾，直接用eclipse开发的**
 
 #### 如何使用git + idea开发代码
 * [git bash安装](https://blog.csdn.net/weixin_41714277/article/details/79399270)
