@@ -8,8 +8,8 @@
 
 #### 代码框架规范
 idea工程，不要加一些无关代码在里面
-**请使用idea开发
-**注意前端写在view里
+**请使用idea开发**
+**前端写在view里**
 
 #### 如何使用git + idea开发代码
 * [git bash安装](https://blog.csdn.net/weixin_41714277/article/details/79399270)
