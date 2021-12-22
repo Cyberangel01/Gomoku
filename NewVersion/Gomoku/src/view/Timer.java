@@ -32,7 +32,7 @@ class BlackTimer extends Timer {
 					StdDraw.setFont(new Font("Arival", Font.BOLD, 20));
 					StdDraw.textRight(450, 45, nowtime + "");
 					StdDraw.textRight(450, 75, totaltime + "");
-					if (nowtime == 0 && totaltime == 1800) {
+					if (nowtime == 0 || totaltime == 0) {
 						ChessBoard.color = !ChessBoard.color;
 						WinnerInterface.draw();
 					}
@@ -68,7 +68,7 @@ class WhiteTimer extends Timer {
 					StdDraw.setFont(new Font("Arival", Font.BOLD, 20));
 					StdDraw.textLeft(550, 45, nowtime + "");
 					StdDraw.textLeft(550, 75, totaltime + "");
-					if (nowtime == 0 && totaltime == 1800) {
+					if (nowtime == 0 || totaltime == 0) {
 						ChessBoard.color = !ChessBoard.color;
 						WinnerInterface.draw();
 					}
