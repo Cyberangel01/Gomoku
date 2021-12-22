@@ -9,6 +9,8 @@ import com.sustc.stdlib.StdDraw;
 
 public class Interface {// 父类说明了这些类的基本成员和基本方法
 	static ArrayList<Button> buttons;
+	static ChessBoard board;
+
 
 	public static void draw() {// 绘制界面
 	}
@@ -133,7 +135,6 @@ class PlayInterface extends Interface {
 	private static Button time = new Button(120, 60, 500, 60, "时间", 50, 25);
 	private static Button exit = new Button(120, 60, 920, 60, "退出", 0, 25);
 	private static Button[] buttons = { undo, menu, restart, time, exit };
-	static ChessBoard board;
 
 //这里draw方法比较复杂，因为这个类的draw要实现读档的功能，需要独特的draw方法
 	public static void draw() {
@@ -229,10 +230,17 @@ class ForbidInterface extends Interface {
 		StdDraw.setFont(new Font("Arival", Font.BOLD, 50));
 		StdDraw.text(500, 510, "那里不可以~~");
 		StdDraw.show();
-		StdDraw.disableDoubleBuffering();
 		StdDraw.pause(1500);
 
 		Button.save();
-		Button.readsave();
+		try {
+			Scanner now = new Scanner(new File("save.txt"));
+			board.draw(now);
+			now.close();
+		} catch (Exception e) {
+		}
+		StdDraw.show();
+		StdDraw.disableDoubleBuffering();
+
 	}
 }
